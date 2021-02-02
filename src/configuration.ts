@@ -8,10 +8,10 @@ export default () => ({
   },
   database: {
     host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
+    name: process.env.DATABASE_NAME,
+    port: process.env.DATABASE_PORT,
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
-    port: process.env.DATABASE_PORT,
     synchronize: process.env.DATABASE_SYNCHRONIZE,
   },
 });
