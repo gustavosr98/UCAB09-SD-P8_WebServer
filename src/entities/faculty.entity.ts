@@ -1,6 +1,6 @@
 import { Entity, OneToMany } from 'typeorm';
 
-import { Entity as MyEntity, School } from '@/database/entities';
+import { Entity as MyEntity, School } from '@/entities';
 
 @Entity()
 export class Faculty extends MyEntity {

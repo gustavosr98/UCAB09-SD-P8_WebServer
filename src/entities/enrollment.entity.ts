@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
-import { BaseEntity, Person } from '@/database/entities';
+import { BaseEntity, Person } from '@/entities';
 
 export enum EnrollmentType {
   STUDENT = 'student',

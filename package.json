@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^7.5.1",
     "@nestjs/swagger": "^4.7.12",
     "@nestjs/typeorm": "^7.1.5",
+    "class-transformer": "^0.3.2",
     "class-validator": "^0.13.1",
     "cls-rtracer": "^2.6.0",
     "helmet": "^4.4.1",

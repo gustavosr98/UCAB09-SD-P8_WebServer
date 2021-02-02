@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 
-import { Entity as MyEntity, School, Enrollment } from '@/database/entities';
+import { Entity as MyEntity, School, Enrollment } from '@/entities';
 
 export enum SectionType {
   MANDATORY = 'mandatory',

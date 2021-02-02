@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { BaseEntity, Enrollment } from '@/database/entities';
+import { BaseEntity, Enrollment } from '@/entities';
 
 @Entity()
 export class Person extends BaseEntity {
