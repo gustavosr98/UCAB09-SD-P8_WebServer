@@ -22,7 +22,7 @@ export class SectionService {
 
     public async getOne(id: number): Promise<Section> {
         this.log.debug(`SectionService - get a section with id=${id}`);
-        return await this.sectionRepository.findOne(id);
+        return await this.sectionRepository.findOne(id, { relations: ['enrollments'] });
     }
 
     public async post(section: Partial<Section>): Promise<Section> {
