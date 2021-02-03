@@ -1,6 +1,6 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, ManyToMany } from 'typeorm';
 
-import { BaseEntity, Person } from '@/entities';
+import { BaseEntity, Person, Section } from '@/entities';
 
 export enum EnrollmentType {
   STUDENT = 'student',
@@ -18,4 +18,7 @@ export class Enrollment extends BaseEntity {
     default: EnrollmentType.STUDENT,
   })
   type: EnrollmentType;
+
+  @ManyToMany(() => Section, { onDelete: 'CASCADE' })
+  sections?: Section[];
 }
