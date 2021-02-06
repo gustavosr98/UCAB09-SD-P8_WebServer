@@ -58,13 +58,13 @@ export class SectionService {
     }
 
     public async postPersonInSection(personId: number, sectionId: number): Promise<Enrollment> {
-        this.log.debug(`EnrollmentService - create a enrollment of person=${personId} in section=${sectionId}`);
+        this.log.debug(`SectionService - create a enrollment of person=${personId} in section=${sectionId}`);
         const per = await this.personService.getOne(personId)
         const sect = await this.getOne(sectionId)
         const sectionEnrollment = sect.enrollments.filter((enrollment) => enrollment.person.id === personId)
 
         if (sectionEnrollment) {
-            this.log.debug(`EnrollmentService - person=${personId} is already enrolled in section=${sectionId}`);
+            this.log.debug(`SectionService - person=${personId} is already enrolled in section=${sectionId}`);
             throw new BadRequestException(`person=${personId} is already enrolled in the section=${sectionId}`);
         } else{
             let enrollment: Partial<Enrollment> = {
@@ -76,7 +76,7 @@ export class SectionService {
     }
 
     public async deletePersonInSection(id: number): Promise<UpdateResult> {
-        this.log.debug(`EnrollmentService - delete enrollment with id=${id}`);
+        this.log.debug(`SectionService - delete enrollment with id=${id}`);
         return await this.enrollmentRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
     }
 }
