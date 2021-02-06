@@ -24,8 +24,6 @@ export class EnrollmentService {
         const per = await this.personService.getOne(person.id)
         let enrollment: Partial<Enrollment> = {
             sections: [],
-            created_date: (new Date()).toISOString(),
-            status: Status.ENABLED,
             person: per
         }
         let allowed: boolean = false

@@ -27,8 +27,6 @@ export class SectionService {
 
     public async post(section: Partial<Section>): Promise<Section> {
         this.log.debug(`SectionService - create a section with name=${section.name}`);
-        section.created_date = (new Date()).toISOString()
-        section.status = Status.ENABLED
         return await this.sectionRepository.save(section);
     }
 
