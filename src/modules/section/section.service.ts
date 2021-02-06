@@ -50,7 +50,7 @@ export class SectionService {
             WHERE s = ${id}
                 AND se.sectionId = s.id
                 AND se.enrollmentId = e.id
-                AND e.type = ${type}
+                ${type && `AND e.type = ${type}`}
                 AND e.person = p.id
         `)
     }
