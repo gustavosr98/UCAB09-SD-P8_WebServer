@@ -4,7 +4,7 @@ import { UpdateResult, DeleteResult } from 'typeorm';
 import { SectionService } from './section.service';
 import { EnrollmentType, Section } from '@/entities';
 
-@Controller('section')
+@Controller('sections')
 export class SectionController {
     constructor(private readonly sectionService: SectionService) {}
 
@@ -28,18 +28,14 @@ export class SectionController {
         return await this.sectionService.update(id, section);
     }
 
-    @Put(':id')
+    @Delete(':id')
     async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.sectionService.delete(id);
     }
 
-    @Get(':id/students')
+    @Get(':id/persons')
     async getStudents(@Param('id') id: number) {
-        return await this.sectionService.getPersonsBySection(id, EnrollmentType.STUDENT);
-    }
-
-    @Get(':id/teachers')
-    async getTeachers(@Param('id') id: number) {
         return await this.sectionService.getPersonsBySection(id, EnrollmentType.TEACHER);
+        return await this.sectionService.getPersonsBySection(id, EnrollmentType.STUDENT);
     }
 }

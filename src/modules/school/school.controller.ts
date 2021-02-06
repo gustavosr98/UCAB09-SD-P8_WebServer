@@ -4,7 +4,7 @@ import { UpdateResult, DeleteResult } from 'typeorm';
 import { SchoolService } from './school.service';
 import { School } from '@/entities';
 
-@Controller('school')
+@Controller('schools')
 export class SchoolController {
     constructor(private readonly schoolService: SchoolService) {}
 
@@ -28,7 +28,7 @@ export class SchoolController {
         return await this.schoolService.update(id, school);
     }
 
-    @Put(':id')
+    @Delete(':id')
     async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.schoolService.delete(id);
     }

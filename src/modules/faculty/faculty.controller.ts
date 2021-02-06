@@ -4,7 +4,7 @@ import { UpdateResult, DeleteResult } from 'typeorm';
 import { FacultyService } from './faculty.service';
 import { Faculty } from '@/entities';
 
-@Controller('faculty')
+@Controller('faculties')
 export class FacultyController {
     constructor(private readonly facultyService: FacultyService) {}
 
@@ -28,7 +28,7 @@ export class FacultyController {
         return await this.facultyService.update(id, faculty);
     }
 
-    @Put(':id')
+    @Delete(':id')
     async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.facultyService.delete(id);
     }
