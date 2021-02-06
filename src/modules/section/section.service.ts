@@ -1,17 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { EnrollmentType, Section, Status } from '@/entities';
+import { Enrollment, EnrollmentType, Section, Status } from '@/entities';
+import { PersonService } from '../person/person.service';
 
 @Injectable()
 export class SectionService {
     constructor(
         @InjectRepository(Section)
         private readonly sectionRepository: Repository<Section>,
+        @InjectRepository(Enrollment)
+        private readonly enrollmentRepository: Repository<Enrollment>,
+        private readonly personService: PersonService,
         @Inject(WINSTON_MODULE_PROVIDER) private readonly log: Logger,
     ) {}
 
@@ -53,5 +57,28 @@ export class SectionService {
                 AND e.type = ${type}
                 AND e.person = p.id
         `)
+    }
+
+    public async postPersonInSection(personId: number, sectionId: number): Promise<Enrollment> {
+        this.log.debug(`EnrollmentService - create a enrollment of person=${personId} in section=${sectionId}`);
+        const per = await this.personService.getOne(personId)
+        const sect = await this.getOne(sectionId)
+        const sectionEnrollment = sect.enrollments.filter((enrollment) => enrollment.person.id === personId)
+
+        if (sectionEnrollment) {
+            this.log.debug(`EnrollmentService - person=${personId} is already enrolled in section=${sectionId}`);
+            throw new BadRequestException(`person=${personId} is already enrolled in the section=${sectionId}`);
+        } else{
+            let enrollment: Partial<Enrollment> = {
+                sections: [sect],
+                person: per
+            }
+            return await this.enrollmentRepository.save(enrollment);
+        }   
+    }
+
+    public async deletePersonInSection(id: number): Promise<UpdateResult> {
+        this.log.debug(`EnrollmentService - delete enrollment with id=${id}`);
+        return await this.enrollmentRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
     }
 }
