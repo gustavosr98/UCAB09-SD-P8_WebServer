@@ -27,7 +27,8 @@ export class SchoolService {
 
     public async post(school: Partial<School>): Promise<School> {
         this.log.debug(`SchoolService - create a school with name=${school.name}`);
-        school.created_date =(new Date()).toISOString()
+        school.created_date = (new Date()).toISOString()
+        school.status = Status.ENABLED
         return await this.schoolRepository.save(school);
     }
 

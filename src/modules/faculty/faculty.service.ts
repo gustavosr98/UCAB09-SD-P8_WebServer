@@ -27,7 +27,8 @@ export class FacultyService {
 
     public async post(faculty: Partial<Faculty>): Promise<Faculty> {
         this.log.debug(`FacultyService - create a faculty with name=${faculty.name}`);
-        faculty.created_date =(new Date()).toISOString()
+        faculty.created_date = (new Date()).toISOString()
+        faculty.status = Status.ENABLED
         return await this.facultyRepository.save(faculty);
     }
 

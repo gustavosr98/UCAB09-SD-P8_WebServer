@@ -26,6 +26,8 @@ export class EnrollmentService {
             throw new BadRequestException(`person=${enrollment.person.id} is already enrolled in section=${section.id}`);
         } else{
             enrollment.sections = [sect]
+            enrollment.created_date = (new Date()).toISOString()
+            enrollment.status = Status.ENABLED
             return await this.enrollmentRepository.save(enrollment);
         }
     }

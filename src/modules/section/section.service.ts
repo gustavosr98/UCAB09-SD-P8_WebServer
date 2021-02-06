@@ -5,7 +5,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Section } from '@/entities';
+import { Section, Status } from '@/entities';
 
 @Injectable()
 export class SectionService {
@@ -27,7 +27,8 @@ export class SectionService {
 
     public async post(section: Partial<Section>): Promise<Section> {
         this.log.debug(`SectionService - create a section with name=${section.name}`);
-        section.created_date =(new Date()).toISOString()
+        section.created_date = (new Date()).toISOString()
+        section.status = Status.ENABLED
         return await this.sectionRepository.save(section);
     }
 
