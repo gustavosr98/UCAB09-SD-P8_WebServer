@@ -28,8 +28,8 @@ export class PersonController {
         return await this.personService.update(id, person);
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number): Promise<DeleteResult> {
+    @Put(':id')
+    async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.personService.delete(id);
     }
 }

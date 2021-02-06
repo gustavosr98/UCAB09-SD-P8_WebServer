@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Patch, Delete, Body, Param } from '@nestjs/common';
 import { UpdateResult, DeleteResult } from 'typeorm';
 
 import { FacultyService } from './faculty.service';
@@ -28,8 +28,8 @@ export class FacultyController {
         return await this.facultyService.update(id, faculty);
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number): Promise<DeleteResult> {
+    @Put(':id')
+    async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.facultyService.delete(id);
     }
 }

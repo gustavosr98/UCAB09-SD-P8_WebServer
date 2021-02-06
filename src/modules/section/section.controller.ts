@@ -28,8 +28,8 @@ export class SectionController {
         return await this.sectionService.update(id, section);
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number): Promise<DeleteResult> {
+    @Put(':id')
+    async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.sectionService.delete(id);
     }
 }

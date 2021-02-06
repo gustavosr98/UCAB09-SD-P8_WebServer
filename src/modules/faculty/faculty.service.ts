@@ -5,7 +5,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Faculty } from '@/entities';
+import { Faculty, Status } from '@/entities';
 
 @Injectable()
 export class FacultyService {
@@ -27,6 +27,7 @@ export class FacultyService {
 
     public async post(faculty: Partial<Faculty>): Promise<Faculty> {
         this.log.debug(`FacultyService - create a faculty with name=${faculty.name}`);
+        faculty.created_date =(new Date()).toISOString()
         return await this.facultyRepository.save(faculty);
     }
 
@@ -35,8 +36,8 @@ export class FacultyService {
         return await this.facultyRepository.update(id, faculty);
     }
 
-    public async delete(id: number): Promise<DeleteResult> {
+    public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`FacultyService - delete faculty with id=${id}`);
-        return await this.facultyRepository.delete(id);
+        return await this.facultyRepository.update(id, { status: Status.ENABLED, deleted_date: (new Date()).toISOString() });
     }
 }

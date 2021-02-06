@@ -27,6 +27,7 @@ export class SectionService {
 
     public async post(section: Partial<Section>): Promise<Section> {
         this.log.debug(`SectionService - create a section with name=${section.name}`);
+        section.created_date =(new Date()).toISOString()
         return await this.sectionRepository.save(section);
     }
 
@@ -35,8 +36,8 @@ export class SectionService {
         return await this.sectionRepository.update(id, section);
     }
 
-    public async delete(id: number): Promise<DeleteResult> {
+    public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`SectionService - delete section with id=${id}`);
-        return await this.sectionRepository.delete(id);
+        return await this.sectionRepository.update(id, { status: Status.ENABLED, deleted_date: (new Date()).toISOString() });
     }
 }

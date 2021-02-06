@@ -13,8 +13,8 @@ export class SectionController {
         return await this.enrollmentService.post(enrollment, section);
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number): Promise<DeleteResult> {
+    @Put(':id')
+    async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.enrollmentService.delete(id);
     }
 }
