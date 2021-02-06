@@ -5,7 +5,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Section, Status } from '@/entities';
+import { EnrollmentType, Section, Status } from '@/entities';
 
 @Injectable()
 export class SectionService {
@@ -39,6 +39,19 @@ export class SectionService {
 
     public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`SectionService - delete section with id=${id}`);
-        return await this.sectionRepository.update(id, { status: Status.ENABLED, deleted_date: (new Date()).toISOString() });
+        return await this.sectionRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+    }
+
+    public async getPersonsBySection(id: number, type: EnrollmentType) {
+        this.log.debug(`SectionService - get all persons the section with id=${id}`);
+        return await this.sectionRepository.query(`
+            SELECT p.* 
+            FROM section s, person p, enrollment e, section_enrollments_enrollment se
+            WHERE s = ${id}
+                AND se.sectionId = s.id
+                AND se.enrollmentId = e.id
+                AND e.type = ${type}
+                AND e.person = p.id
+        `)
     }
 }

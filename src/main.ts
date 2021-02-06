@@ -9,6 +9,7 @@ import createOptions from '@/logger/winston';
 // CUSTOM CODE
 import { AppModule } from '@/app/app.module';
 import { FinalFilter } from '@/common/filters/final.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -24,6 +25,19 @@ async function bootstrap() {
   app.useGlobalFilters(new FinalFilter(app.get(WINSTON_MODULE_NEST_PROVIDER)));
   app.use(helmet());
   app.use(rTracer.expressMiddleware());
+
+  const config = new DocumentBuilder()
+    .setTitle('SD WebServer')
+    .setDescription('API REST v1.0')
+    .setVersion('1.0')
+    .addTag('Faculty')
+    .addTag('Person')
+    .addTag('School')
+    .addTag('Section')
+    .addTag('Enrollment')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/v1', app, document);
 
   await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);

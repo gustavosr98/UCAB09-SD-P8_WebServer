@@ -39,6 +39,6 @@ export class PersonService {
 
     public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`PersonService - delete person with id=${id}`);
-        return await this.personRepository.update(id, { status: Status.ENABLED, deleted_date: (new Date()).toISOString() });
+        return await this.personRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
     }
 }

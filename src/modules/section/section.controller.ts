@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common'
 import { UpdateResult, DeleteResult } from 'typeorm';
 
 import { SectionService } from './section.service';
-import { Section } from '@/entities';
+import { EnrollmentType, Section } from '@/entities';
 
 @Controller('section')
 export class SectionController {
@@ -31,5 +31,15 @@ export class SectionController {
     @Put(':id')
     async delete(@Param('id') id: number): Promise<UpdateResult> {
         return await this.sectionService.delete(id);
+    }
+
+    @Get(':id/students')
+    async getStudents(@Param('id') id: number) {
+        return await this.sectionService.getPersonsBySection(id, EnrollmentType.STUDENT);
+    }
+
+    @Get(':id/teachers')
+    async getTeachers(@Param('id') id: number) {
+        return await this.sectionService.getPersonsBySection(id, EnrollmentType.TEACHER);
     }
 }

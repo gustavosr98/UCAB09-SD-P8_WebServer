@@ -39,6 +39,6 @@ export class FacultyService {
 
     public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`FacultyService - delete faculty with id=${id}`);
-        return await this.facultyRepository.update(id, { status: Status.ENABLED, deleted_date: (new Date()).toISOString() });
+        return await this.facultyRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
     }
 }
