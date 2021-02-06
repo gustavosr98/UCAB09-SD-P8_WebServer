@@ -27,8 +27,6 @@ export class PersonService {
 
     public async post(person: Partial<Person>): Promise<Person> {
         this.log.debug(`PersonService - create a person with name=${person.first_name}`);
-        person.created_date = (new Date()).toISOString()
-        person.status = Status.ENABLED
         return await this.personRepository.save(person);
     }
 

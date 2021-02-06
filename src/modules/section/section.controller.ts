@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { UpdateResult, DeleteResult } from 'typeorm';
 
 import { SectionService } from './section.service';
@@ -34,9 +34,8 @@ export class SectionController {
     }
 
     @Get(':id/persons')
-    async getStudents(@Param('id') id: number) {
-        return await this.sectionService.getPersonsBySection(id, EnrollmentType.TEACHER);
-        return await this.sectionService.getPersonsBySection(id, EnrollmentType.STUDENT);
+    async getPersons(@Param('id') id: number, @Query('type') type?: EnrollmentType) {
+        return await this.sectionService.getPersonsBySection(id, type);
     }
 
     @Post(':sectionId/person/:personId')

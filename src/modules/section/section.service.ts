@@ -31,8 +31,6 @@ export class SectionService {
 
     public async post(section: Partial<Section>): Promise<Section> {
         this.log.debug(`SectionService - create a section with name=${section.name}`);
-        section.created_date = (new Date()).toISOString()
-        section.status = Status.ENABLED
         return await this.sectionRepository.save(section);
     }
 
@@ -54,7 +52,7 @@ export class SectionService {
             WHERE s = ${id}
                 AND se.sectionId = s.id
                 AND se.enrollmentId = e.id
-                AND e.type = ${type}
+                ${type && `AND e.type = ${type}`}
                 AND e.person = p.id
         `)
     }
