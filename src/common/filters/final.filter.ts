@@ -7,7 +7,7 @@ import { Logger } from 'winston';
 export class FinalFilter implements ExceptionFilter {
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
-  catch(exception: HttpException & Error, host: ArgumentsHost) {
+  catch(exception: Error, host: ArgumentsHost) {
     const httpContext = host.switchToHttp();
     const response = httpContext.getResponse();
     const request = httpContext.getRequest();
@@ -18,8 +18,8 @@ export class FinalFilter implements ExceptionFilter {
       path: request.url,
     };
 
-    this.logger.error(`${errorResponse.path}: ` + exception.getStatus() + ' ' + exception);
+    this.logger.error(`${errorResponse.path}: ` + exception.message + ' ' + exception);
 
-    response.status(exception.getStatus()).json(errorResponse);
+    response.status(500).json(errorResponse);
   }
 }
