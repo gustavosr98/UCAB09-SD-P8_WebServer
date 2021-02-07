@@ -18,7 +18,7 @@ export class FacultyController {
     @ApiResponse({
         status: 200,
         description: 'List of all active faculties',
-        type: Faculty})
+        type: [Faculty]})
     @Get()
     async get(): Promise<Faculty[]> {
         return await this.facultyService.get();
@@ -31,7 +31,7 @@ export class FacultyController {
         type: Faculty})
     @ApiBadRequestResponse({
         status: 404,
-        description: 'Faculty not register on the system'})
+        description: 'Faculty not register in the system'})
     @ApiParam({
         name: 'id',
         required: true
@@ -81,7 +81,7 @@ export class FacultyController {
     @ApiResponse({
         status: 200,
         description: 'Deleted Faculty',
-        type: Faculty})
+        type: null})
     @ApiBadRequestResponse({
         status: 404,
         description: 'Falculty id not found'})
@@ -99,7 +99,7 @@ export class FacultyController {
     @ApiResponse({
         status: 200,
         description: 'List of schools',
-        type: [Faculty]})
+        type: [School]})
     @ApiBadRequestResponse({
         status: 404,
         description: 'Falculty id not found'})
@@ -125,7 +125,7 @@ export class FacultyController {
         required: true
     })
     @ApiBody({
-        type: Faculty
+        type: School
     })
     @Post(':id/schools')
     async postSchool(@Param('id') id: number, @Body() school: Partial<School>): Promise<School> {
