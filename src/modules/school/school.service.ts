@@ -5,7 +5,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { School, Status } from '@/entities';
+import { Faculty, School, Status } from '@/entities';
 
 @Injectable()
 export class SchoolService {
@@ -38,5 +38,9 @@ export class SchoolService {
     public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`SchoolService - delete school with id=${id}`);
         return await this.schoolRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+    }
+
+    public async getFromFacultie(faculty: Faculty): Promise<School[]> {
+        return await this.schoolRepository.find({faculty: faculty});
     }
 }

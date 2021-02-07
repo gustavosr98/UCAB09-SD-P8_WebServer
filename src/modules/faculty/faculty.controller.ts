@@ -1,12 +1,15 @@
 import { Controller, Get, Post, Put, Patch, Delete, Body, Param } from '@nestjs/common';
-import { UpdateResult, DeleteResult } from 'typeorm';
 
 import { FacultyService } from './faculty.service';
-import { Faculty } from '@/entities';
+import { Faculty, School } from '@/entities';
+import { SchoolService } from '../school/school.service';
 
 @Controller('faculties')
 export class FacultyController {
-    constructor(private readonly facultyService: FacultyService) {}
+    constructor(
+        private readonly facultyService: FacultyService,
+        private readonly schoolService: SchoolService,
+        ) {}
 
     @Get()
     async get(): Promise<Faculty[]> {
@@ -32,4 +35,12 @@ export class FacultyController {
     async delete(@Param('id') id: number): Promise<any> {
         return await this.facultyService.delete(id);
     }
+
+    // SCHOOLS
+    @Get(':id/schools')
+    async getSchools(@Param('id') id: number): Promise<School[]> {
+        return await this.schoolService.getFromFacultie(await this.getOne(id));
+    }
+
+    
 }
