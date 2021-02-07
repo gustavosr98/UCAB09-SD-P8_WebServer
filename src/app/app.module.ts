@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import {indexModules} from '../modules/indexModule'
+import { indexModules } from '../modules/indexModule'
 
 // CONFIGURATION
 import configuration from '@/configuration';
