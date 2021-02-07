@@ -57,6 +57,13 @@ $ npm install
 $ npm run start:dev
 ```
 
+# Swagger
+1. Open the browser
+2. Copy the next URL and paste it inyo the broser 
+```
+$ http://localhost:3000/api/v1/
+```
+
 # Developers
 
 - Gustavo Sánchez [@ustavosr98](https://github.com/gustavosr98) 📖
