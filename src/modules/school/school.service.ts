@@ -40,7 +40,9 @@ export class SchoolService {
 
     public async delete(id: number): Promise<UpdateResult> {
         this.log.debug(`SchoolService - delete school with id=${id}`);
-        return await this.schoolRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        await this.schoolRepository.findOneOrFail(id)
+        await this.schoolRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        return null;
     }
 
     public async getFromFacultie(faculty: Faculty): Promise<School[]> {
