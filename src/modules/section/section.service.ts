@@ -5,7 +5,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Enrollment, EnrollmentType, Section, Status } from '@/entities';
+import { Enrollment, EnrollmentType, School, Section, Status } from '@/entities';
 import { PersonService } from '../person/person.service';
 
 @Injectable()
@@ -26,11 +26,12 @@ export class SectionService {
 
     public async getOne(id: number): Promise<Section> {
         this.log.debug(`SectionService - get a section with id=${id}`);
-        return await this.sectionRepository.findOne(id, { relations: ['enrollments'] });
+        return await this.sectionRepository.findOneOrFail(id, { relations: ['enrollments'] });
     }
 
-    public async post(section: Partial<Section>): Promise<Section> {
+    public async post(school: School, section: Partial<Section>): Promise<Section> {
         this.log.debug(`SectionService - create a section with name=${section.name}`);
+        section.school = school
         return await this.sectionRepository.save(section);
     }
 
@@ -78,5 +79,9 @@ export class SectionService {
     public async deletePersonInSection(id: number): Promise<UpdateResult> {
         this.log.debug(`SectionService - delete enrollment with id=${id}`);
         return await this.enrollmentRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+    }
+
+    public async getFromSchools(school: School): Promise<Section[]> {
+        return await this.sectionRepository.find({school: school});
     }
 }
