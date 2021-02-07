@@ -30,11 +30,6 @@ async function bootstrap() {
     .setTitle('SD WebServer')
     .setDescription('API REST v1.0')
     .setVersion('1.0')
-    .addTag('Faculty')
-    .addTag('Person')
-    .addTag('School')
-    .addTag('Section')
-    .addTag('Enrollment')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1', app, document);

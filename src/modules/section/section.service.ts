@@ -49,14 +49,14 @@ export class SectionService {
         return null;
     }
 
-    public async getPersonsBySection(id: number, type : Partial<Enrollment>) : Promise<Person[]>{
+    public async getPersonsBySection(id: number, type : EnrollmentType) : Promise<Person[]>{
         this.log.debug(`SectionService - get all persons the section with id=${id}`);
         const sect = await this.getOne(id)
 
         let persons : Person[] = []
 
         sect.enrollments.map((enrollment) => {
-            if (enrollment.status === Status.ENABLED && enrollment.type === type.type)
+            if (enrollment.status === Status.ENABLED && enrollment.type === type)
                 persons.push(enrollment.person)
         })
 

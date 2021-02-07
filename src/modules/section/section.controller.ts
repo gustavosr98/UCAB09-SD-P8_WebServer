@@ -2,9 +2,9 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/
 import { UpdateResult, DeleteResult } from 'typeorm';
 
 import { SectionService } from './section.service';
-import { Enrollment, Person, Section } from '@/entities';
+import { Enrollment, EnrollmentType, Person, Section } from '@/entities';
 
-import {ApiTags, ApiOperation, ApiResponse, ApiBadRequestResponse, ApiParam ,ApiBody} from '@nestjs/swagger';
+import {ApiTags, ApiOperation, ApiResponse, ApiBadRequestResponse, ApiParam ,ApiBody, ApiQuery} from '@nestjs/swagger';
 
 @ApiTags('Sections')
 @Controller('sections')
@@ -89,11 +89,12 @@ export class SectionController {
         name: 'id',
         required: true
     })
-    @ApiBody({
-        type: Enrollment
+    @ApiQuery({
+        name: 'type',
+        enum: EnrollmentType
     })
-    @Post(':id/persons')
-    async getPersons(@Param('id') id: number, @Body() type: Partial<Enrollment>): Promise<Person[]> {
+    @Get(':id/persons')
+    async getPersons(@Param('id') id: number, @Query('type') type: EnrollmentType): Promise<Person[]> {
         return await this.sectionService.getPersonsBySection(id, type);
     }
 
