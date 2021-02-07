@@ -7,21 +7,26 @@ export enum SectionType {
   ELECTIVE = 'elective',
 }
 
+import { ApiProperty } from '@nestjs/swagger';
+
 @Entity()
 export class Section extends MyEntity {
   @ManyToOne((type) => School, (school) => school.sections)
   school: School;
 
-  @ManyToMany(() => Enrollment, { onDelete: 'CASCADE' })
+  @ManyToMany(() => Enrollment, (enrollment) => enrollment.sections,  { onDelete: 'CASCADE' })
   @JoinTable()
   enrollments: Enrollment[];
 
+  @ApiProperty()
   @Column()
   uc: number;
 
+  @ApiProperty()
   @Column()
   semester: number;
 
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: SectionType,
@@ -29,12 +34,15 @@ export class Section extends MyEntity {
   })
   type: SectionType;
 
+  @ApiProperty()
   @Column()
   ht: number;
 
+  @ApiProperty()
   @Column()
   hp: number;
 
+  @ApiProperty()
   @Column()
   hl: number;
 }

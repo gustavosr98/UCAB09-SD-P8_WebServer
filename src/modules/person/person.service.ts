@@ -22,7 +22,7 @@ export class PersonService {
 
     public async getOne(id: number): Promise<Person> {
         this.log.debug(`PersonService - get a person with id=${id}`);
-        return await this.personRepository.findOne(id);
+        return await this.personRepository.findOneOrFail(id);
     }
 
     public async post(person: Partial<Person>): Promise<Person> {
@@ -30,13 +30,17 @@ export class PersonService {
         return await this.personRepository.save(person);
     }
 
-    public async update(id: number, person: Partial<Person>): Promise<UpdateResult> {
+    public async update(id: number, person: Partial<Person>): Promise<Person> {
         this.log.debug(`PersonService - update person with id=${id}`);
-        return await this.personRepository.update(id, person);
+        await this.personRepository.findOneOrFail(id)
+        await this.personRepository.update(id, person);
+        return this.personRepository.findOne(id) 
     }
 
-    public async delete(id: number): Promise<UpdateResult> {
+    public async delete(id: number): Promise<any> {
         this.log.debug(`PersonService - delete person with id=${id}`);
-        return await this.personRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        await this.personRepository.findOneOrFail(id)
+        await this.personRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        return null;
     }
 }

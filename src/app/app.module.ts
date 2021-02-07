@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { indexModules } from '../modules/indexModule'
+
 // CONFIGURATION
 import configuration from '@/configuration';
 
@@ -19,6 +21,7 @@ import { AppService } from '@/app/app.service';
 
 @Module({
   imports: [
+    ...indexModules,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
