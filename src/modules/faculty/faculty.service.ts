@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -30,13 +30,18 @@ export class FacultyService {
         return await this.facultyRepository.save(faculty);
     }
 
-    public async update(id: number, faculty: Partial<Faculty>): Promise<UpdateResult> {
+    public async update(id: number, faculty: Partial<Faculty>): Promise<Faculty> {
         this.log.debug(`FacultyService - update faculty with id=${id}`);
-        return await this.facultyRepository.update(id, faculty);
-    }
+        const original : Faculty = await this.facultyRepository.findOneOrFail(id)
+        await this.facultyRepository.update(id,faculty)
+        return this.facultyRepository.findOne(id)
 
-    public async delete(id: number): Promise<UpdateResult> {
+    } 
+
+    public async delete(id: number): Promise<any> {
         this.log.debug(`FacultyService - delete faculty with id=${id}`);
-        return await this.facultyRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        const original : Faculty = await this.facultyRepository.findOneOrFail(id)
+        await this.facultyRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        return null;
     }
 }

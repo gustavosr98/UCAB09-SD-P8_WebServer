@@ -24,12 +24,12 @@ export class FacultyController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: number, @Body() faculty: Partial<Faculty>): Promise<UpdateResult> {
+    async update(@Param('id') id: number, @Body() faculty: Partial<Faculty>): Promise<Faculty> {
         return await this.facultyService.update(id, faculty);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: number): Promise<UpdateResult> {
+    async delete(@Param('id') id: number): Promise<any> {
         return await this.facultyService.delete(id);
     }
 }
