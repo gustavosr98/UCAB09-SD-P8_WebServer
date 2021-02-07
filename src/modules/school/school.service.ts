@@ -25,8 +25,9 @@ export class SchoolService {
         return await this.schoolRepository.findOne(id);
     }
 
-    public async post(school: Partial<School>): Promise<School> {
+    public async post(faculty: Faculty,school: Partial<School>): Promise<School> {
         this.log.debug(`SchoolService - create a school with name=${school.name}`);
+        school.faculty = faculty
         return await this.schoolRepository.save(school);
     }
 

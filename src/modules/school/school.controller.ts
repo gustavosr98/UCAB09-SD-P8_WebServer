@@ -18,11 +18,6 @@ export class SchoolController {
         return await this.schoolService.getOne(id);
     }
 
-    @Post()
-    async post(@Body() school: Partial<School>): Promise<School> {
-        return await this.schoolService.post(school);
-    }
-
     @Put(':id')
     async update(@Param('id') id: number, @Body() school: Partial<School>): Promise<UpdateResult> {
         return await this.schoolService.update(id, school);

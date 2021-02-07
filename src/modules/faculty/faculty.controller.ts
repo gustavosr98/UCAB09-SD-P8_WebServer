@@ -42,5 +42,8 @@ export class FacultyController {
         return await this.schoolService.getFromFacultie(await this.getOne(id));
     }
 
-    
+    @Post(':id/schools')
+    async postSchool(@Param('id') id: number, @Body() school: Partial<School>): Promise<School> {
+        return await this.schoolService.post(await this.getOne(id), school);
+    }
 }
