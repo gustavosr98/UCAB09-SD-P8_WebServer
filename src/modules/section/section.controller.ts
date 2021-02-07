@@ -125,11 +125,6 @@ export class SectionController {
         return await this.sectionService.postPersonInSection(personId, sectionId, type);
     }
 
-    /* @Delete(':id')
-    async deletePersonInSection(@Param('id') id: number): Promise<UpdateResult> {
-        return await this.sectionService.deletePersonInSection(id);
-    } */
-
     @ApiOperation({summary: 'Delete a Person from a Section' })
     @ApiResponse({
         status: 200,

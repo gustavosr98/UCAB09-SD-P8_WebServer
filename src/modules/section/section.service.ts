@@ -61,16 +61,6 @@ export class SectionService {
         })
 
         return persons
-
-        /* return await this.sectionRepository.query(`
-            SELECT p.* 
-            FROM section s, person p, enrollment e, section_enrollments_enrollment se
-            WHERE s = ${id}
-                AND se.sectionId = s.id
-                AND se.enrollmentId = e.id
-                ${type && `AND e.type = ${type}`}
-                AND e.person = p.id
-        `) */
     }
 
     public async postPersonInSection(personId: number, sectionId: number, type : Partial<Enrollment>): Promise<Enrollment> {
@@ -107,11 +97,6 @@ export class SectionService {
             throw new BadRequestException(`person=${personId} is not enrolled in the section=${sectionId}`);
         }
     }
-
-    /* public async deletePersonInSection(id: number): Promise<UpdateResult> {
-        this.log.debug(`SectionService - delete enrollment with id=${id}`);
-        return await this.enrollmentRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
-    } */
 
     public async getFromSchools(school: School): Promise<Section[]> {
         return await this.sectionRepository.find({school: school});
