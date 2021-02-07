@@ -31,9 +31,11 @@ export class SchoolService {
         return await this.schoolRepository.save(school);
     }
 
-    public async update(id: number, school: Partial<School>): Promise<UpdateResult> {
+    public async update(id: number, school: Partial<School>): Promise<School> {
         this.log.debug(`SchoolService - update school with id=${id}`);
-        return await this.schoolRepository.update(id, school);
+        await this.schoolRepository.findOneOrFail(id)
+        await this.schoolRepository.update(id,school)
+        return this.schoolRepository.findOne(id)
     }
 
     public async delete(id: number): Promise<UpdateResult> {
