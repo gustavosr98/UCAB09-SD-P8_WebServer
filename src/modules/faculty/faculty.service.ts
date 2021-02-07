@@ -22,7 +22,7 @@ export class FacultyService {
 
     public async getOne(id: number): Promise<Faculty> {
         this.log.debug(`FacultyService - get a faculty with id=${id}`);
-        return await this.facultyRepository.findOne(id);
+        return await this.facultyRepository.findOneOrFail(id);
     }
 
     public async post(faculty: Partial<Faculty>): Promise<Faculty> {
