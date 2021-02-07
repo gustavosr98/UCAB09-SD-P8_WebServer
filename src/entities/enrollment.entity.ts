@@ -7,11 +7,14 @@ export enum EnrollmentType {
   TEACHER = 'teacher',
 }
 
+import { ApiProperty } from '@nestjs/swagger';
+
 @Entity()
 export class Enrollment extends BaseEntity {
   @ManyToOne((type) => Person, (person) => person.enrollments, {eager: true})
   person: Person;
 
+  @ApiProperty({enum: EnrollmentType })
   @Column({
     type: 'enum',
     enum: EnrollmentType,

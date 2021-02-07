@@ -57,14 +57,14 @@ export class FacultyController {
         return await this.facultyService.post(faculty);
     }
 
-    @ApiOperation({summary: 'Modify an existent faculty' })
+    @ApiOperation({summary: 'Modify an existent Faculty' })
     @ApiResponse({
         status: 200,
         description: 'Modified Faculty',
         type: Faculty})
     @ApiBadRequestResponse({
         status: 404,
-        description: 'Falculty id not found'})
+        description: 'Faculty not register in the system'})
     @ApiParam({
         name: 'id',
         required: true
@@ -84,7 +84,7 @@ export class FacultyController {
         type: null})
     @ApiBadRequestResponse({
         status: 404,
-        description: 'Falculty id not found'})
+        description: 'Faculty not register in the system'})
     @ApiParam({
         name: 'id',
         required: true
@@ -102,7 +102,7 @@ export class FacultyController {
         type: [School]})
     @ApiBadRequestResponse({
         status: 404,
-        description: 'Falculty id not found'})
+        description: 'Faculty not register in the system'})
     @ApiParam({
         name: 'id',
         required: true
@@ -119,7 +119,7 @@ export class FacultyController {
         type: School})
     @ApiBadRequestResponse({
         status: 404,
-        description: 'Falculty id not found'})
+        description: 'Faculty not register in the system'})
     @ApiParam({
         name: 'id',
         required: true
