@@ -9,7 +9,7 @@ export enum EnrollmentType {
 
 @Entity()
 export class Enrollment extends BaseEntity {
-  @ManyToOne((type) => Person, (person) => person.enrollments)
+  @ManyToOne((type) => Person, (person) => person.enrollments, {eager: true})
   person: Person;
 
   @Column({
@@ -19,6 +19,6 @@ export class Enrollment extends BaseEntity {
   })
   type: EnrollmentType;
 
-  @ManyToMany(() => Section, { onDelete: 'CASCADE' })
-  sections?: Section[];
+  @ManyToMany(() => Section, (section) => section.enrollments, { onDelete: 'CASCADE' })
+  sections: Section[];
 }

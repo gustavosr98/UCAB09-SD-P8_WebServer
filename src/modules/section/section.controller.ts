@@ -33,7 +33,9 @@ export class SectionController {
         return await this.sectionService.getPersonsBySection(id, type);
     }
 
-    @Post(':sectionId/person/:personId')
+    // PERSONS RELATED END-POINTS
+
+    @Post(':sectionId/persons/:personId')
     async postPersonInSection(@Param('sectionId') sectionId: number, @Param('personId') personId: number): Promise<Enrollment> {
         return await this.sectionService.postPersonInSection(personId, sectionId);
     }

@@ -12,7 +12,7 @@ export class Section extends MyEntity {
   @ManyToOne((type) => School, (school) => school.sections)
   school: School;
 
-  @ManyToMany(() => Enrollment, { onDelete: 'CASCADE' })
+  @ManyToMany(() => Enrollment, (enrollment) => enrollment.sections,  { onDelete: 'CASCADE' })
   @JoinTable()
   enrollments: Enrollment[];
 

@@ -66,18 +66,18 @@ export class SectionService {
         this.log.debug(`SectionService - create a enrollment of person=${personId} in section=${sectionId}`);
         const per = await this.personService.getOne(personId)
         const sect = await this.getOne(sectionId)
-        const sectionEnrollment = sect.enrollments.filter((enrollment) => enrollment.person.id === personId)
+
+        let sectionEnrollment = sect.enrollments.find((enrollment) => enrollment.person.id === per.id && enrollment.status === Status.ENABLED)
 
         if (sectionEnrollment) {
             this.log.debug(`SectionService - person=${personId} is already enrolled in section=${sectionId}`);
             throw new BadRequestException(`person=${personId} is already enrolled in the section=${sectionId}`);
-        } else{
-            let enrollment: Partial<Enrollment> = {
-                sections: [sect],
-                person: per
-            }
-            return await this.enrollmentRepository.save(enrollment);
-        }   
+        } else {
+            let enrollment: Enrollment =  new Enrollment()
+            enrollment.person = per
+            enrollment.sections = [sect]
+            return await this.enrollmentRepository.save(enrollment); 
+        }
     }
 
     public async deletePersonInSection(id: number): Promise<UpdateResult> {
