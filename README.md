@@ -66,6 +66,6 @@ $ npm run start:dev
 
 # Developers
 
-- Gustavo Sánchez [@ustavosr98](https://github.com/gustavosr98) 📖
+- Gustavo Sánchez [@gustavosr98](https://github.com/gustavosr98) 📖
 - Javier Andrade [@JAA1998](https://github.com/JAA1998) 📖
 - Yeisson Venencia [@yeisson-venencia](https://github.com/yeisson-venencia) 📖
