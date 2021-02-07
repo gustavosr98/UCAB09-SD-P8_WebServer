@@ -61,7 +61,7 @@ $ npm run start:dev
 1. Open the browser
 2. Copy the next URL and paste it inyo the broser 
 ```
-$ http://localhost:3000/api/v1/
+> http://localhost:3000/api/v1/
 ```
 
 # Developers
