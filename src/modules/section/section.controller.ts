@@ -40,8 +40,13 @@ export class SectionController {
         return await this.sectionService.postPersonInSection(personId, sectionId);
     }
 
-    @Delete(':id')
+    /* @Delete(':id')
     async deletePersonInSection(@Param('id') id: number): Promise<UpdateResult> {
         return await this.sectionService.deletePersonInSection(id);
+    } */
+
+    @Delete(':sectionId/persons/:personId')
+    async deletePersonInSection(@Param('sectionId') sectionId: number, @Param('personId') personId: number): Promise<any> {
+        return await this.sectionService.deletePersonInSection(sectionId,personId);
     }
 }

@@ -80,10 +80,26 @@ export class SectionService {
         }
     }
 
-    public async deletePersonInSection(id: number): Promise<UpdateResult> {
+    public async deletePersonInSection(sectionId : number, personId: number): Promise<any> {
+        this.log.debug(`SectionService - delete enrollment of person=${personId} in section=${sectionId}`);
+        const per = await this.personService.getOne(personId)
+        const sect = await this.getOne(sectionId)
+
+        let sectionEnrollment = sect.enrollments.find((enrollment) => enrollment.person.id === per.id && enrollment.status === Status.ENABLED)
+
+        if (sectionEnrollment) {
+            await this.enrollmentRepository.update(sectionEnrollment.id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });   
+            return null;
+        } else {
+            this.log.debug(`SectionService - person=${personId} is not enrolled in section=${sectionId}`);
+            throw new BadRequestException(`person=${personId} is not enrolled in the section=${sectionId}`);
+        }
+    }
+
+    /* public async deletePersonInSection(id: number): Promise<UpdateResult> {
         this.log.debug(`SectionService - delete enrollment with id=${id}`);
         return await this.enrollmentRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
-    }
+    } */
 
     public async getFromSchools(school: School): Promise<Section[]> {
         return await this.sectionRepository.find({school: school});
