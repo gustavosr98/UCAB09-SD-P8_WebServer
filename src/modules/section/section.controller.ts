@@ -28,16 +28,19 @@ export class SectionController {
         return await this.sectionService.delete(id);
     }
 
-    @Get(':id/persons')
-    async getPersons(@Param('id') id: number, @Query('type') type?: EnrollmentType) {
+    // PERSONS RELATED END-POINTS
+
+    @Post(':id/persons')
+    async getPersons(@Param('id') id: number, @Body() type: Partial<Enrollment>) {
         return await this.sectionService.getPersonsBySection(id, type);
     }
 
-    // PERSONS RELATED END-POINTS
-
     @Post(':sectionId/persons/:personId')
-    async postPersonInSection(@Param('sectionId') sectionId: number, @Param('personId') personId: number): Promise<Enrollment> {
-        return await this.sectionService.postPersonInSection(personId, sectionId);
+    async postPersonInSection(
+        @Param('sectionId') sectionId: number,
+        @Param('personId') personId: number,
+        @Body() type: Partial<Enrollment>): Promise<Enrollment> {
+        return await this.sectionService.postPersonInSection(personId, sectionId, type);
     }
 
     /* @Delete(':id')

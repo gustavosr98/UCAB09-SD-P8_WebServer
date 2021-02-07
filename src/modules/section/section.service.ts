@@ -5,7 +5,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Enrollment, EnrollmentType, School, Section, Status } from '@/entities';
+import { Enrollment, EnrollmentType, Person, School, Section, Status } from '@/entities';
 import { PersonService } from '../person/person.service';
 
 @Injectable()
@@ -49,9 +49,20 @@ export class SectionService {
         return null;
     }
 
-    public async getPersonsBySection(id: number, type: EnrollmentType) {
+    public async getPersonsBySection(id: number, type : Partial<Enrollment>) : Promise<Person[]>{
         this.log.debug(`SectionService - get all persons the section with id=${id}`);
-        return await this.sectionRepository.query(`
+        const sect = await this.getOne(id)
+
+        let persons : Person[] = []
+
+        sect.enrollments.map((enrollment) => {
+            if (enrollment.status === Status.ENABLED && enrollment.type === type.type)
+                persons.push(enrollment.person)
+        })
+
+        return persons
+
+        /* return await this.sectionRepository.query(`
             SELECT p.* 
             FROM section s, person p, enrollment e, section_enrollments_enrollment se
             WHERE s = ${id}
@@ -59,10 +70,10 @@ export class SectionService {
                 AND se.enrollmentId = e.id
                 ${type && `AND e.type = ${type}`}
                 AND e.person = p.id
-        `)
+        `) */
     }
 
-    public async postPersonInSection(personId: number, sectionId: number): Promise<Enrollment> {
+    public async postPersonInSection(personId: number, sectionId: number, type : Partial<Enrollment>): Promise<Enrollment> {
         this.log.debug(`SectionService - create a enrollment of person=${personId} in section=${sectionId}`);
         const per = await this.personService.getOne(personId)
         const sect = await this.getOne(sectionId)
@@ -76,6 +87,7 @@ export class SectionService {
             let enrollment: Enrollment =  new Enrollment()
             enrollment.person = per
             enrollment.sections = [sect]
+            enrollment.type = type.type
             return await this.enrollmentRepository.save(enrollment); 
         }
     }
