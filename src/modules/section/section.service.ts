@@ -35,14 +35,18 @@ export class SectionService {
         return await this.sectionRepository.save(section);
     }
 
-    public async update(id: number, section: Partial<Section>): Promise<UpdateResult> {
+    public async update(id: number, section: Partial<Section>): Promise<Section> {
         this.log.debug(`SectionService - update section with id=${id}`);
-        return await this.sectionRepository.update(id, section);
+        await this.sectionRepository.findOneOrFail(id)
+        await this.sectionRepository.update(id,section)
+        return this.sectionRepository.findOne(id)
     }
 
-    public async delete(id: number): Promise<UpdateResult> {
+    public async delete(id: number): Promise<any> {
         this.log.debug(`SectionService - delete section with id=${id}`);
-        return await this.sectionRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        await this.sectionRepository.findOneOrFail(id)
+        await this.sectionRepository.update(id, { status: Status.DISABLED, deleted_date: (new Date()).toISOString() });
+        return null;
     }
 
     public async getPersonsBySection(id: number, type: EnrollmentType) {

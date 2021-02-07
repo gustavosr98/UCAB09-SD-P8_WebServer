@@ -18,18 +18,13 @@ export class SectionController {
         return await this.sectionService.getOne(id);
     }
 
-    /* @Post()
-    async post(@Body() section: Partial<Section>): Promise<Section> {
-        return await this.sectionService.post(section);
-    }
- */
     @Put(':id')
-    async update(@Param('id') id: number, @Body() section: Partial<Section>): Promise<UpdateResult> {
+    async update(@Param('id') id: number, @Body() section: Partial<Section>): Promise<Section> {
         return await this.sectionService.update(id, section);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: number): Promise<UpdateResult> {
+    async delete(@Param('id') id: number): Promise<any> {
         return await this.sectionService.delete(id);
     }
 

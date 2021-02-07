@@ -29,7 +29,7 @@ export class SchoolController {
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: number): Promise<UpdateResult> {
+    async delete(@Param('id') id: number): Promise<any> {
         return await this.schoolService.delete(id);
     }
 
